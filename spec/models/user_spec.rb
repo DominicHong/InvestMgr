@@ -58,8 +58,8 @@ describe User do
 
     before(:each) do
       @user = User.create(@attr)
-      @p1 = Factory(:portfolio, :user => @user, :created_at => 1.day.ago)
-      @p2 = Factory(:portfolio, :user => @user, :created_at => 1.hour.ago)
+      @p1 = FactoryGirl.create(:portfolio, :user => @user, :created_at => 1.day.ago)
+      @p2 = FactoryGirl.create(:portfolio, :user => @user, :created_at => 1.hour.ago)
     end
 	
     

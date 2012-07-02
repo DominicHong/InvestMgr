@@ -20,8 +20,8 @@ describe TradesController do
 
   	describe "failure" do
   		before(:each) do
-  			@portfolio = Factory(:portfolio, :user => get_current_user)
-    		@stock = Factory(:stock)		
+  			@portfolio = FactoryGirl.create(:portfolio, :user => get_current_user)
+    		@stock = FactoryGirl.create(:stock)		
     		@attr = { :buy => true,
     			  :trade_date => DateTime.parse("2011-07-25"),
     			  :clear_date => DateTime.parse("2011-07-25"),
@@ -46,8 +46,8 @@ describe TradesController do
   	
   	describe "success" do
   		before(:each) do
-    		@portfolio = Factory(:portfolio, :user => get_current_user)
-    		@stock = Factory(:stock)		
+    		@portfolio = FactoryGirl.create(:portfolio, :user => get_current_user)
+    		@stock = FactoryGirl.create(:stock)		
     		@attr = { :portfolio_id => @portfolio.id,
     			  :state => 1, 
     			  :buy => true,

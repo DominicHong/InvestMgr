@@ -4,11 +4,11 @@ describe PortfoliosController do
   render_views	
   describe "GET 'index'" do
   	before(:each) do
-  		@portfolio = Factory(:portfolio)
-  		second = Factory(:portfolio, :name => "HK Shares", :classification => "HTM")
-  		third = Factory(:portfolio, :name => "US Shares", :classification => "AFS")
+  		@portfolio = FactoryGirl.create(:portfolio)
+  		second = FactoryGirl.create(:portfolio, :name => "HK Shares", :classification => "HTM")
+  		third = FactoryGirl.create(:portfolio, :name => "US Shares", :classification => "AFS")
   		
-  		30.times do Factory(:portfolio)	end
+  		30.times do FactoryGirl.create(:portfolio)	end
   	end
     it "should be successful" do
       get :index
@@ -72,7 +72,7 @@ describe PortfoliosController do
   
   describe "GET 'edit'" do
   	before(:each) do
-  		@portfolio = Factory(:portfolio)
+  		@portfolio = FactoryGirl.create(:portfolio)
   	end
   	it "should be successful" do
   		get :edit, :id => @portfolio
@@ -81,7 +81,7 @@ describe PortfoliosController do
   end
   describe "PUT 'update'" do
   	before(:each) do
-  		@portfolio = Factory(:portfolio)
+  		@portfolio = FactoryGirl.create(:portfolio)
   	end
   	describe "failure" do
   		before(:each) do
@@ -111,7 +111,7 @@ describe PortfoliosController do
   end
   describe "DELETE 'destroy'" do
   	before(:each) do
-  		@portfolio = Factory(:portfolio)
+  		@portfolio = FactoryGirl.create(:portfolio)
   	end
   	it "should destroy the portfolio" do
   		lambda do

@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Holding do
 
   before(:each) do
-    @fund = Factory(:fund)
-    @stock = Factory(:stock)
+    @fund = FactoryGirl.create(:fund)
+    @stock = FactoryGirl.create(:stock)
     
     @holding = @fund.holdings.build(:stock_id => @stock.id)
   end

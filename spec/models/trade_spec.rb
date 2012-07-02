@@ -2,8 +2,8 @@
 
 describe Trade do
 	before(:each) do
-   @portfolio = Factory(:portfolio)
-   @stock = Factory(:stock)		
+   @portfolio = FactoryGirl.create(:portfolio)
+   @stock = FactoryGirl.create(:stock)		
    @attr = { :state => 1, 
      :buy => true,
      :trade_date => DateTime.parse("2011-07-25"),

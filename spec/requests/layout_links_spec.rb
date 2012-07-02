@@ -14,10 +14,8 @@ describe "LayoutLinks" do
     get '/portfolios'
     response.should be_success
   end
-  it "should have a Quotes page at '/quotes'" do
-    get '/quotes'
-    response.should be_success
-  end
+  it "should have a Quotes page at '/quotes'" 
+  
   it "should have a About page at '/about'" do
     get '/about'
     response.should be_success

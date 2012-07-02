@@ -36,6 +36,7 @@ group :test do
   gem 'spork'
   gem 'rspec-rails', '2.10.0'
   gem 'guard-rspec', '0.5.5'
+  gem 'webrat'
 end
 
 

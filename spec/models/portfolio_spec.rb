@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Portfolio do
   before(:each) do
-    @user = Factory(:user)
+    @user = FactoryGirl.create(:user)
     @attr = { :name => "A Share", :classification => "TRADING" }
   end
   
@@ -41,9 +41,9 @@ describe Portfolio do
   
   describe "trade associations" do
   	before(:each) do
-  		@portfolio = Factory(:portfolio, :user => @user)
-  		@t1 = Factory(:trade, :portfolio => @portfolio)
-  		@t2 = Factory(:trade, :portfolio => @portfolio)
+  		@portfolio = FactoryGirl.create(:portfolio, :user => @user)
+  		@t1 = FactoryGirl.create(:trade, :portfolio => @portfolio)
+  		@t2 = FactoryGirl.create(:trade, :portfolio => @portfolio)
   	end
   	it "should have a trades attribute" do
   		@portfolio.should respond_to(:trades)
@@ -73,7 +73,7 @@ describe Portfolio do
     
     it "can have two same names for different Users" do
       @user.portfolios.create!(@attr)
-      @user2 = Factory(:user)
+      @user2 = FactoryGirl.create(:user)
       @user2.portfolios.build(@attr.merge(:classification => "AFS")).should be_valid
     end
   end

@@ -3,7 +3,6 @@
 #  sell_type    :string(255)	 FIFO, LIFO, AVG, SPECIFIC
 class Trade < ActiveRecord::Base
 	after_initialize :default_values
-	attr_accessible :state, :buy, :sell_type, :trade_date, :clear_date, :vol, :price, :amount, :fee, :security_id
 		
 	belongs_to :portfolio
 	belongs_to :security
