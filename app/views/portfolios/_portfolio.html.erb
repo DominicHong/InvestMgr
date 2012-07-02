@@ -1,0 +1,6 @@
+<li>
+	<%= link_to portfolio.name, portfolio %>
+	|
+	<%= link_to "delete", portfolio, :method => :delete, :confirm => "You sure?", 
+								:title => "Delete #{portfolio.name}"%>
+</li>

@@ -1,0 +1,39 @@
+<h1>  All Trades </h1>
+
+<%= paginate @trades %>
+<table class="sortable">
+  <tr>
+    <th><%= sortable "portfolios.name", "Portfolio name" %></th>
+    <th><%= sortable "trades.buy", "Direction" %></th>
+    <th><%= sortable "trades.price", "Price" %></th>
+    <th><%= sortable "trades.vol", "Volumn" %></th>
+    <th><%= sortable "trades.amount", "Amount" %></th>
+    <th><%= sortable "securities.name", "Security Name" %></th>
+    <th><%= sortable "securities.sid", "Security SID" %></th>
+    <th><%= sortable "securities.market", "Security Market" %></th>
+    <th><%= sortable "trades.trade_date", "Traded at" %></th>
+    <th><%= sortable "trades.clear_date", "Cleared at" %></th>
+    <th><%= sortable "trades.fee", "Fee" %></th>
+    <th><%= sortable "trades.state", "Expired?" %></th>
+  </tr>
+  <% for trade in @trades %>
+    <tr>
+      <td><%= trade.portfolio.name %></td>
+      <td><%= trade.buy ? "Buy" : "Sell" %></td>
+      <td class="price"><%= number_to_currency(trade.price) %></td>
+      <td><%= trade.vol %></td>
+      <td><%= trade.amount %></td>
+      <td><%= trade.security.name %></td>
+      <td><%= trade.security.sid %></td>
+      <td><%= trade.security.market %></td>
+      <td><%= trade.trade_date.strftime("%Y-%m-%d") %></td>
+      <td><%= trade.clear_date.strftime("%Y-%m-%d") %></td>
+      <td><%= trade.fee %></td>
+      <td><%= trade.state ? "No" : "Yes" %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= paginate @trades %>
+<p><%= link_to "New trade", new_trade_path %></p>
+

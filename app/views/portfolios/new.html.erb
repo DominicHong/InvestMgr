@@ -1,0 +1,18 @@
+<h1>Add a portfolio</h1>
+<%= form_for(@portfolio) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>	
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :classification %><br />
+    <%= f.select(:classification, [['TRADING','TRADING'],
+    							   ['AFS','AFS'],
+    							   ['HTM','HTM']])%>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Add a portfolio" %>
+  </div>
+<% end %>

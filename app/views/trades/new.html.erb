@@ -1,0 +1,41 @@
+<h1>Add a trade record</h1>
+
+<%= form_for(@trade) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>	
+  
+  <div class="field">
+  	<%= f.label 'Belongs to portfolio: ' %>
+  	<%= f.collection_select(:portfolio_id, current_user.portfolios, :id, :name) %>
+  </div>
+  <div class="field">
+  	<%= f.radio_button :buy, true %><%= f.label :buy%>
+  	<%= f.radio_button :buy, false %><%= f.label :buy, 'Sell'%><br />	
+  </div>
+  <div class="field">
+  	<%= f.label 'Trade Date: ' %>
+  	<%= f.date_select :trade_date %><br />
+  </div>	
+  <div class="field">
+  	<%= f.label 'Clear Date: ' %>
+  	<%= f.date_select :clear_date %><br />
+  </div>
+  
+  <div class="field">
+  	<%= f.label 'Volume: ' %>
+  	<%= f.text_field :vol %><br />
+  </div>
+  
+  <div class="field">
+  	<%= f.label 'Price: ' %>
+  	<%= f.text_field :price %><br />
+  </div>
+  
+  <div class="field">
+  	<%= f.label 'Security ID: ' %>
+  	<%= f.text_field :security_id %><br />
+  </div>
+  
+  <div class="actions">
+    <%= f.submit "Add a trade record" %>
+  </div>
+<% end %>
