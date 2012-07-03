@@ -10,6 +10,7 @@ gem 'kaminari'
 gem 'validates_existence'
 gem 'jquery-rails'
 gem 'faker'
+gem 'bootstrap-sass', '~> 2.0.4.0'
 
 # Gems used only for assets and not required
 # in production environments by default.
