@@ -103,30 +103,31 @@ describe Portfolio do
       @user = User.where(:name => "Example User", :email => "example@railstutorial.org").first
       @portfolio = @user.portfolios.where(:name => "Mainland Shares").first
     end
-    it "should have nothing between two identical DateTime" do
-      position = @portfolio.position(:from => DateTime.parse("2012-3-6"), :till => DateTime.parse("2012-3-6"))
+    it "should have nothing at 2012-3-1" do
+      position = @portfolio.position(DateTime.parse("2012-3-1").beginning_of_day,
+       DateTime.parse("2012-3-1").beginning_of_day)
       position.size.should == 0
     end
     it "should have 100 CMB with 20.2150 cost/share, 100 Gree with 19.00 cost/share before the end of 2012-3-5" do 
-      position1 = @portfolio.position(:till => DateTime.parse("2012-3-5 24:00:00"))
-      position2 = @portfolio.position(:from => DateTime.parse("2012-3-5 00:00:00"), :till => DateTime.parse("2012-3-5 24:00:00"))
+      position1 = @portfolio.position(DateTime.parse("2012-3-5 23:59:59"))
+      position2 = @portfolio.position(DateTime.parse("2012-3-1").beginning_of_day, 
+        DateTime.parse("2012-3-5").end_of_day)
       cmb = Stock.where(:sid => "600036", :market => "sh").first
       gree = Stock.where(:sid => "000651", :market => "sz").first
-      position1[cmb]["position"].should == 100
-      position1[cmb]["cost"].round(4).should == 20.2150
-      position1[gree]["position"].should == 100
-      position1[gree]["cost"].round(4).should == 19.0000
+      position1[cmb][:position].should == 100
+      position1[cmb][:cost].round(4).should == 20.2150
+      position1[gree][:position].should == 100
+      position1[gree][:cost].round(4).should == 19.0150
       position1.size.should == 2
       position1.should == position2
     end
-    it "should have correct positions and costs of CMB , and no positions other than CMB, at the end of 2012-3-7" do
-      position1 = @portfolio.position(:till => DateTime.parse("2012-3-7 24:00:00"))
-      position2 = @portfolio.position(:from => DateTime.parse("2012-3-4"), :till => DateTime.parse("2012-3-7 24:00:00"))
+    it "should have correct positions and costs of CMB , and only CMB and GREE postitions, at the end of 2012-3-7" do
+      position1 = @portfolio.position(DateTime.parse("2012-3-7 23:59:59"))
+      position2 = @portfolio.position(DateTime.parse("2012-3-4"), DateTime.parse("2012-3-7 23:59:59"))
       cmb = Stock.where(:sid => "600036", :market => "sh").first
-      position1[cmb]["position"].should == 300
-      position1[cmb]["cost"].round(4).should == 20.5083
-
-      position1.size.should == 1
+      position1[cmb][:position].should == 300
+      position1[cmb][:cost].round(4).should == 20.5083
+      position1.size.should == 2
       position1.should == position2
     end
   end
@@ -137,20 +138,20 @@ describe Portfolio do
       @portfolio = @user.portfolios.where(:name => "Hongkong Shares").first
     end    
     it "should have 100 CMBs with 20.2150 cost/share, 100 CNOOCs with 25.2650 cost/share before the end of 2012-3-5" do 
-      position1 = @portfolio.position(:till => DateTime.parse("2012-3-5 24:00:00"))
-      position2 = @portfolio.position(:from => DateTime.parse("2012-3-5 00:00:00"), :till => DateTime.parse("2012-3-5 24:00:00"))
+      position1 = @portfolio.position(DateTime.parse("2012-3-5 23:59:59"))
+      position2 = @portfolio.position(DateTime.parse("2012-3-5 00:00:00"), DateTime.parse("2012-3-5 23:59:59"))
       cnooc = Stock.where(:sid => "00883", :market => "hk").first
-      position1[cnooc]["position"].should == 100
-      position1[cnooc]["cost"].round(4).should == 25.2650
+      position1[cnooc][:position].should == 100
+      position1[cnooc][:cost].round(4).should == 25.2650
       
       position1.should == position2
     end
     it "should have correct positions and costs of CMB and CNOOC respectively, and no positions other than these two securities, at the end of 2012-3-7" do
-      position1 = @portfolio.position(:till => DateTime.parse("2012-3-7 24:00:00"))
-      position2 = @portfolio.position(:from => DateTime.parse("2012-3-4"), :till => DateTime.parse("2012-3-7 24:00:00"))
+      position1 = @portfolio.position(DateTime.parse("2012-3-7 23:59:59"))
+      position2 = @portfolio.position(DateTime.parse("2012-3-4"), DateTime.parse("2012-3-7 23:59:59"))
       cnooc = Stock.where(:sid => "00883", :market => "hk").first
-      position1[cnooc]["position"].should == 300
-      position1[cnooc]["cost"].round(4).should == 25.6317
+      position1[cnooc][:position].should == 300
+      position1[cnooc][:cost].round(4).should == 25.6317
 
       position1.size.should == 1
       position1.should == position2

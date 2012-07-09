@@ -7,6 +7,8 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
+
+
     Stock.create(:market => "sz", :sid=>"000898", :name=>"鞍钢股份").save!
     Stock.create(:market => "sh", :sid=>"600019", :name=>"宝钢股份").save!
     Stock.create(:market => "sh", :sid=>"600036", :name=>"招商银行").save!

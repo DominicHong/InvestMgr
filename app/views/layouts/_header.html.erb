@@ -1,10 +1,14 @@
-<header>
-  <nav class="header">
-    <ul>
-      	<li><%= link_to "Home", root_path %></li>
-    	<li><%= link_to "Trades", trades_path %></li>
-        <li><%= link_to "Portfolios", portfolios_path %></li>
-        <li><%= link_to "Quotes", "#" %></li>
-    </ul>
-  </nav>
+<header class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<nav>
+				<ul class="nav pull-right"> 
+					<li><%= link_to "Home", root_path %></li>
+					<li><%= link_to "Trades", trades_path %></li>
+					<li><%= link_to "Portfolios", portfolios_path %></li>
+					<li><%= link_to "Quotes", "#" %></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
 </header>

@@ -11,7 +11,23 @@ class Portfolio < ActiveRecord::Base
 		0
 	end
 	def position(*from, till)
+		rails ArgumentError, "must be no more than ONE from_date" if from.length > 2
+		from = from.first
+		if from.nil?
+			ts = self.trades.where("trade_date <= ?", till).order("trade_date")
+		else
+			ts = self.trades.where("trade_date >= ? AND trade_date <= ?", from, till).order("trade_date")
+		end
 		position = Hash.new { |hash, key| hash[key] = {:position => 0, :cost => 0} }
+		return position	if ts.nil?
+		ts.each { |t| 
+			vol = position[t.security][:position]
+			cost = position[t.security][:cost]
+			position[t.security][:position]= (t.buy ? (vol+t.vol) : (vol-t.vol))
+			if t.buy
+				position[t.security][:cost]=(vol*cost + (t.vol*t.price+t.fee))/(vol+t.vol)
+			end
+		}
 		position
 	end
 end
