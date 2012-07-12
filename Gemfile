@@ -21,23 +21,20 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
 
-  gem 'uglifier', '1.0.3'
+  gem 'uglifier', '1.2.5'
 end
 
 group :development do
   gem 'annotate'
   gem 'spork'
   gem 'rspec-rails', '2.10.0'
-  gem 'guard-rspec', '0.5.5'
 end
 
 group :test do
   gem 'factory_girl_rails', :require => false
-  gem 'guard-spork', '0.3.2'  
   gem 'spork'
   gem 'rspec-rails', '2.10.0'
-  gem 'guard-rspec', '0.5.5'
-  gem 'webrat'
+  gem 'capybara'
 end
 
 

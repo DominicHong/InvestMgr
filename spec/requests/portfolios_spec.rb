@@ -1,17 +1,14 @@
 require 'spec_helper'
 
 describe "Portfolios" do
-
   describe "Add a portfolio" do
   	describe "failure" do
   		it "should not add a new portfolio" do
   			lambda do
   				visit new_portfolio_path
-  				fill_in "Name",		:with => ""
-  				fill_in "Classification", :with => ""
-  				click_button
-  				response.should render_template('portfolios/new')
-  				response.should have_selector("div#error_explanation")
+  				fill_in 'Name',		:with => ''
+  				click_button 'Add a portfolio'
+  				page.should have_selector("div.alert.alert-error")
   			end.should_not change(Portfolio, :count) 
   		end
   	end
@@ -20,11 +17,9 @@ describe "Portfolios" do
   			lambda do
   				visit new_portfolio_path
   				fill_in "Name",		:with => "Example Portfolio"
-  				fill_in "Classification", :with => "TRADING"
-  				click_button
-  				response.should render_template('portfolios')
-  				response.should have_selector("div.flash.success",
-  												:content => "Successfully")
+  				select 'AFS', :from => "portfolio_classification"
+  				click_button 'Add a portfolio'
+  				page.should have_selector("div.alert.alert-success")
   			end.should change(Portfolio, :count).by(1) 
   		end
   	end

@@ -7,33 +7,21 @@ describe PortfoliosController do
   		@portfolio = FactoryGirl.create(:portfolio)
   		second = FactoryGirl.create(:portfolio, :name => "HK Shares", :classification => "HTM")
   		third = FactoryGirl.create(:portfolio, :name => "US Shares", :classification => "AFS")
-  		
   		30.times do FactoryGirl.create(:portfolio)	end
+      visit portfolios_path  
   	end
-    it "should be successful" do
-      get :index
-      response.should be_success
-    end
+    
     it "should have an element for each portfolio" do
-    	get :index
     	Portfolio.page(1).each { |portfolio| 
-    		response.should have_selector("li", :content => portfolio.name )
+    		page.should have_selector("li", content: portfolio.name )
 	    }
     end
     it "should paginate portfolios" do
-    	get :index
-    	response.should have_selector("nav.pagination")
-        response.should have_selector("a", :href => "/portfolios?page=2",
+    	page.should have_selector("nav.pagination")
+      page.should have_selector("a", :href => "/portfolios?page=2",
                                            :content => "2")
-        response.should have_selector("a", :href => "/portfolios?page=2",
+      page.should have_selector("a", :href => "/portfolios?page=2",
                                            :content => "Next")
-    end
-  end
-
-  describe "GET 'new'" do
-    it "should be successful" do
-      get :new
-      response.should be_success
     end
   end
 
