@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/rweng/jquery-datatables-rails.git
+  revision: 535d355c85d3a79984cfe310b22aeb9ca05252e6
+  specs:
+    jquery-datatables-rails (1.10.0)
+      jquery-rails
+
 GEM
   remote: http://ruby.taobao.org/
   specs:
@@ -160,6 +167,7 @@ DEPENDENCIES
   coffee-rails (= 3.2.1)
   factory_girl_rails
   faker
+  jquery-datatables-rails!
   jquery-rails
   kaminari
   mysql2

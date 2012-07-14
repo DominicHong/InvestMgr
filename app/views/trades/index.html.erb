@@ -1,7 +1,8 @@
 <h1>  All Trades </h1>
 
 <%= paginate @trades %>
-<table class="sortable">
+<table id="trades">
+  <thead>
   <tr>
     <th><%= sortable "portfolios.name", "Portfolio name" %></th>
     <th><%= sortable "trades.buy", "Direction" %></th>
@@ -16,9 +17,11 @@
     <th><%= sortable "trades.fee", "Fee" %></th>
     <th><%= sortable "trades.state", "Expired?" %></th>
   </tr>
+  </thead>
+  <tbody>
   <% for trade in @trades %>
     <tr>
-      <td><%= trade.portfolio.name %></td>
+      <td><%= link_to(trade.portfolio.name, trade.portfolio) %></td>
       <td><%= trade.buy ? "Buy" : "Sell" %></td>
       <td class="price"><%= number_to_currency(trade.price) %></td>
       <td><%= trade.vol %></td>
@@ -32,6 +35,7 @@
       <td><%= trade.state ? "No" : "Yes" %></td>
     </tr>
   <% end %>
+  </tbody>
 </table>
 
 <%= paginate @trades %>

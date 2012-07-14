@@ -1,2 +1,41 @@
-<h1>Portfolios#show</h1>
-<p>Find me in app/views/portfolios/show.html.erb</p>
+<h1>Portfolio: <%= @portfolio.name %> </h1>
+
+<table id="trades" class="table table-striped table-bordered">
+  <thead>
+  <tr>
+    <th>Portfolio name</th>
+    <th>Direction</th>
+    <th>Price</th>
+    <th>Volumn</th>
+    <th>Amount</th>
+    <th>Security Name</th>
+    <th>Security SID</th>
+    <th>Security Market</th>
+    <th>Traded at</th>
+    <th>Cleared at</th>
+    <th>Fee</th>
+    <th>Expired?</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% for trade in @trades %>
+    <tr>
+      <td><%= link_to(trade.portfolio.name, trade.portfolio) %></td>
+      <td><%= trade.buy ? "Buy" : "Sell" %></td>
+      <td class="price"><%= number_to_currency(trade.price) %></td>
+      <td><%= trade.vol %></td>
+      <td><%= trade.amount %></td>
+      <td><%= trade.security.name %></td>
+      <td><%= trade.security.sid %></td>
+      <td><%= trade.security.market %></td>
+      <td><%= trade.trade_date.strftime("%Y-%m-%d") %></td>
+      <td><%= trade.clear_date.strftime("%Y-%m-%d") %></td>
+      <td><%= trade.fee %></td>
+      <td><%= trade.state ? "No" : "Yes" %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+
+

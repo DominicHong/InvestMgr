@@ -1,6 +1,6 @@
 class PortfoliosController < ApplicationController
   def index
-  	@portfolios = Portfolio.page(params[:page])
+  	@portfolios = @current_user.portfolios.page(params[:page])
   end
 
   def new
@@ -18,6 +18,8 @@ class PortfoliosController < ApplicationController
   end
 
   def show
+    @portfolio = @current_user.portfolios.find(params[:id])
+    @trades = @portfolio.trades
   end
   def edit
 	@portfolio = Portfolio.find(params[:id])
