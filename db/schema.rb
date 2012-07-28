@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -22,8 +23,8 @@ ActiveRecord::Schema.define(:version => 20120218102453) do
     t.string   "name"
     t.string   "classification"
     t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   add_index "portfolios", ["classification"], :name => "index_portfolios_on_classification"
@@ -61,7 +62,7 @@ ActiveRecord::Schema.define(:version => 20120218102453) do
   add_index "securities", ["sid", "market"], :name => "index_securities_on_sid_and_market", :unique => true
 
   create_table "trades", :force => true do |t|
-    t.integer  "portfolio_id"
+    t.integer  "portfolio_id",                                :null => false
     t.integer  "state"
     t.boolean  "buy"
     t.string   "sell_type"
@@ -71,7 +72,8 @@ ActiveRecord::Schema.define(:version => 20120218102453) do
     t.decimal  "price",        :precision => 8,  :scale => 3
     t.decimal  "amount",       :precision => 12, :scale => 3
     t.decimal  "fee",          :precision => 8,  :scale => 3
-    t.integer  "security_id"
+    t.integer  "security_id",                                 :null => false
+    t.string   "type"
   end
 
   add_index "trades", ["portfolio_id"], :name => "index_trades_on_portfolio_id"
@@ -79,8 +81,8 @@ ActiveRecord::Schema.define(:version => 20120218102453) do
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

@@ -4,7 +4,6 @@ class Stock < Security
 	has_many :holdings, :dependent => :destroy,
 	:foreign_key => "stock_id"
 
-
 end
 
 

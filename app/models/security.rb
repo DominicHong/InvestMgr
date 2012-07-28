@@ -11,9 +11,9 @@ class Security < ActiveRecord::Base
 		end
 	end
 	
-	def eql?(s)               # The same as above
+	def eql?(s)               # Stricker than above
   		if s.is_a? Security      
-    		self.sid==s.sid && self.market==s.market  
+    		self.sid.eql?(s.sid) && self.market.eql?(s.market)
   		elsif                
     		false            
 		end

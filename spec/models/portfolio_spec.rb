@@ -103,6 +103,7 @@ describe Portfolio do
       @user = User.where(:name => "Example User", :email => "example@railstutorial.org").first
       @portfolio = @user.portfolios.where(:name => "Mainland Shares").first
     end
+
     it "should have nothing at 2012-3-1" do
       position = @portfolio.position(DateTime.parse("2012-3-1").beginning_of_day,
        DateTime.parse("2012-3-1").beginning_of_day)
@@ -146,7 +147,7 @@ describe Portfolio do
       
       position1.should == position2
     end
-    it "should have correct positions and costs of CMB and CNOOC respectively, and no positions other than these two securities, at the end of 2012-3-7" do
+    it "should have correct positions and costs of CNOOC respectively, and no positions for other securities, at the end of 2012-3-7" do
       position1 = @portfolio.position(DateTime.parse("2012-3-7 23:59:59"))
       position2 = @portfolio.position(DateTime.parse("2012-3-4"), DateTime.parse("2012-3-7 23:59:59"))
       cnooc = Stock.where(:sid => "00883", :market => "hk").first

@@ -20,6 +20,7 @@ class PortfoliosController < ApplicationController
   def show
     @portfolio = @current_user.portfolios.find(params[:id])
     @trades = @portfolio.trades
+    @positions = @portfolio.position(DateTime.now)
   end
   def edit
 	@portfolio = Portfolio.find(params[:id])
@@ -38,7 +39,7 @@ class PortfoliosController < ApplicationController
 	@portfolio = Portfolio.find(params[:id])
   	@portfolio.destroy
   	flash[:success] = "Portfolio destroyed"
-  	redirect_to portfolios_path
+  	redirect_to :back
   end
 
 end

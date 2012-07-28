@@ -26,3 +26,8 @@ Stock.create(:market => "sh", :sid=>"600377", :name=>"宁沪高速").save!
 Stock.create(:market => "sh", :sid=>"600030", :name=>"中信证券").save!
 Stock.create(:market => "sh", :sid=>"600518", :name=>"康美药业").save!
 Stock.create(:market => "sz", :sid=>"000157", :name=>"中联重科").save!
+
+Stock.create!(:name => "CNOOC", :sid => "00883", :market => "hk")
+Stock.create!(:name => "ANTA", :sid => "02020", :market => "hk")
+#special security for CASH
+Cash.create!(:name => "CASH", :sid => "999", :market => "cash")

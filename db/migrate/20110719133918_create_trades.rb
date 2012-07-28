@@ -12,6 +12,7 @@ class CreateTrades < ActiveRecord::Migration
 	  t.decimal :amount, :precision => 12, :scale => 3
 	  t.decimal :fee, :precision => 8, :scale => 3
 	  t.integer :security_id, :null => false
+    t.column :type, :string
 
     end
     add_index :trades, :portfolio_id

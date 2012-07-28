@@ -3,12 +3,13 @@ class Portfolio < ActiveRecord::Base
 	
 	belongs_to :user
 	has_many :trades, :dependent => :destroy
+	has_many :cash_trades, :dependent => :destroy 
 	validates :name, :presence => true, :uniqueness => {:scope => :user_id} 
 	validates :user_id, :presence => true
 	validates :classification, :inclusion => %w(TRADING AFS HTM)
 
 	def cash(at = DateTime.now)
-		0
+		
 	end
 	def position(*from, till)
 		rails ArgumentError, "must be no more than ONE from_date" if from.length > 2
@@ -21,6 +22,7 @@ class Portfolio < ActiveRecord::Base
 		position = Hash.new { |hash, key| hash[key] = {:position => 0, :cost => 0} }
 		return position	if ts.nil?
 		ts.each { |t| 
+			next if t.is_cash?
 			vol = position[t.security][:position]
 			cost = position[t.security][:cost]
 			position[t.security][:position]= (t.buy ? (vol+t.vol) : (vol-t.vol))

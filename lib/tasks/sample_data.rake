@@ -18,10 +18,6 @@ namespace :db do
   end
   def make_stocks
     #Rake::Task['utils:fill_csi300'].invoke
-    @cnooc = Stock.create!(:name => "CNOOC", :sid => "00883", :market => "hk")
-    @anta = Stock.create!(:name => "ANTA", :sid => "02020", :market => "hk")
-    #special security for CASH
-    Cash.create!(:name => "CASH", :sid => "999", :market => "cash")
   end
   def make_portfolios
     @mainport = @user.portfolios.create!(:name => "Mainland Shares", :classification => "TRADING")
@@ -41,6 +37,8 @@ namespace :db do
   def make_trades
     @cmb = Stock.where(:sid => "600036", :market => "sh").first
     @gree = Stock.where(:sid => "000651", :market => "sz").first
+    @cnooc = Stock.where(:sid => "00883", :market => "hk").first
+    @anta = Stock.where(:sid => "02020", :market => "hk").first
     tdate = DateTime.parse("2012-3-4")
     #Buy GREE in the mainland portfolio
     @mainport.trades.create!(:state => 1,

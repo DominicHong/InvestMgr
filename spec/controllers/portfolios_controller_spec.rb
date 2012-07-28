@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe PortfoliosController do
   render_views	
+  before{request.env["HTTP_REFERER"] ||= "where i came from"}
+  
   describe "GET 'index'" do
   	before(:each) do
   		@portfolio = FactoryGirl.create(:portfolio)
@@ -15,13 +17,6 @@ describe PortfoliosController do
     	Portfolio.page(1).each { |portfolio| 
     		page.should have_selector("li", content: portfolio.name )
 	    }
-    end
-    it "should paginate portfolios" do
-    	page.should have_selector("nav.pagination")
-      page.should have_selector("a", :href => "/portfolios?page=2",
-                                           :content => "2")
-      page.should have_selector("a", :href => "/portfolios?page=2",
-                                           :content => "Next")
     end
   end
 
@@ -106,9 +101,9 @@ describe PortfoliosController do
   			delete :destroy, :id => @portfolio
   		end.should change(Portfolio, :count).by(-1)
   	end
-  	it "should redirect to the portfolios page" do
+  	it "should redirect to the previous page" do
   		delete :destroy, :id => @portfolio
-  		response.should redirect_to(portfolios_path)
+  		response.should redirect_to ("where i came from")
   	end
   end
 

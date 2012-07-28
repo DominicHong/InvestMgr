@@ -2,7 +2,7 @@
 #  buy          :boolean(1)		 0 for sell, 1 for buy
 #  sell_type    :string(255)	 FIFO, LIFO, AVG, SPECIFIC
 class Trade < ActiveRecord::Base
-	after_initialize :default_values
+	before_validation :default_values
 		
 	belongs_to :portfolio
 	belongs_to :security
@@ -11,22 +11,36 @@ class Trade < ActiveRecord::Base
 	validates :security_id, :existence => true
 	validates :trade_date, :presence => true
 	validates :sell_type, :inclusion => [nil, "FIFO","LIFO", "AVG", "SPECIFIC"]
-	validates :vol, :numericality => {:greater_than => 0}
-
+	validates :vol, :numericality => {:greater_than_or_equal_to => 0},
+					:unless => Proc.new{|trade| trade.type == "CashTrade"} 
+	validates :price, :numericality => {:greater_than_or_equal_to => 0},
+					:unless => Proc.new{|trade| trade.type == "CashTrade"} 				
+	validates :amount,  :numericality => true
 	validate :trade_date_must_be_no_later_than_clear_date
+
+	# Return cashflow for this trade
+	def cf
+		self.buy ? (-self.amount-self.fee)  : (self.amount - self.fee)
+	end
+	def is_cash?
+		false
+	end
+
+
 
 	private
 
-	def default_values
-		sell_type ||= "AVG"
-	end
+		def default_values
+			self.sell_type ||= "AVG"
+			self.amount ||= self.vol * self.price
+		end
 
-	def trade_date_must_be_no_later_than_clear_date     
-		return false if self.trade_date == nil 
-		return true if self.clear_date == nil
-		return true if self.trade_date <= self.clear_date
-		errors.add(self.trade_date.to_s, "must be no later than clear date") 
-	end
+		def trade_date_must_be_no_later_than_clear_date     
+			return false if self.trade_date == nil 
+			return true if self.clear_date == nil
+			return true if self.trade_date <= self.clear_date
+			errors.add(self.trade_date.to_s, "must be no later than clear date") 
+		end
 end
 
 

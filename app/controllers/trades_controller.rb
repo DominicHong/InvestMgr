@@ -27,6 +27,10 @@ class TradesController < ApplicationController
   end
 
   def destroy
+    @trade = Trade.find(params[:id])
+    @trade.destroy
+    flash[:success] = "Trade destroyed"
+    redirect_to :back
   end
 
   def show

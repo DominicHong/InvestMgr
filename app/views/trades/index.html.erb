@@ -16,6 +16,7 @@
     <th><%= sortable "trades.clear_date", "Cleared at" %></th>
     <th><%= sortable "trades.fee", "Fee" %></th>
     <th><%= sortable "trades.state", "Expired?" %></th>
+    <th>Edit</th>
   </tr>
   </thead>
   <tbody>
@@ -33,6 +34,7 @@
       <td><%= trade.clear_date.strftime("%Y-%m-%d") %></td>
       <td><%= trade.fee %></td>
       <td><%= trade.state ? "No" : "Yes" %></td>
+      <td><%= link_to "delete", trade, :method => :delete, :data => {:confirm => "You sure?" }, :title => "Delete this trade"%>  </td>
     </tr>
   <% end %>
   </tbody>

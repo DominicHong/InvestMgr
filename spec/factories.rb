@@ -36,9 +36,13 @@ FactoryGirl.define do
     clear_date DateTime.parse("2011-07-24")
     vol 100.00
     price 20.00
-    amount 100*20
     fee 1.5
     association :portfolio
     association :security
+  end
+  factory :cash_trade do |cash_trade|
+    trade_date DateTime.parse("2012-07-19")
+    amount 100
+    association :portfolio
   end
 end
