@@ -47,7 +47,6 @@ namespace :db do
                              :clear_date => tdate,
                              :vol => 100.00,
                              :price => 19.00,
-                             :amount => 100 * 19.00 +1.5,
                              :fee => 1.5,
                              :security_id => @gree.id
                              )
@@ -60,7 +59,6 @@ namespace :db do
                                :clear_date => tdate.next_day(n),
                                :vol => 100.00 * n,
                                :price => 20.00 * (1 + n.to_f/100),
-                               :amount => 100 * n * 20.00 * (1 + n.to_f/100) +1.5 * n,
                                :fee => 1.5 * n,
                                :security_id => @cmb.id
                                )
@@ -73,7 +71,6 @@ namespace :db do
                              :clear_date => tdate.next_day(1),
                              :vol => 100.00,
                              :price => 20.00,
-                             :amount => 100.00 * 20.00 - 1.5,
                              :fee => 1.5,
                              :security_id => @gree.id
                              )
@@ -86,7 +83,6 @@ namespace :db do
                                :clear_date => tdate.next_day(n).advance(:hours => 3),
                                :vol => 100.00 * n,
                                :price => 20.00 * (1 + n.to_f/100),
-                               :amount => 100.00 * n * 20.00 * (1 + n.to_f/100) - 1.5 * n,
                                :fee => 1.5 * n,
                                :security_id => @cmb.id
                                )
@@ -101,7 +97,6 @@ namespace :db do
                               :clear_date => tdate.next_day(n),
                               :vol => 100.00 * n,
                               :price => 25.00 * (1 + n.to_f/100),
-                              :amount => 100.00 * n * 25.00 * (1 + n.to_f/100) + 1.5 * n,
                               :fee => 1.5 * n,
                               :security_id => @cnooc.id
                               )
@@ -116,7 +111,6 @@ namespace :db do
                               :clear_date => tdate.next_day(n).advance(:hours => 3),
                               :vol => 100.00 * n,
                               :price => 25.00 * (1 + n.to_f/100),
-                              :amount => 100 * n * 25.00 *(1 + n.to_f/100) - 1.5 * n,
                               :fee => 1.5 * n,
                               :security_id => @cnooc.id
                               )

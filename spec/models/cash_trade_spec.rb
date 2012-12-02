@@ -5,12 +5,14 @@ describe CashTrade do
 	let(:stock) { FactoryGirl.create(:stock) }
 	let(:cash_trade) { FactoryGirl.create(:cash_trade) }
 	let(:trade) { FactoryGirl.create(:trade) }
-
+	subject { cash_trade }
   it "should create a CashTrade even if a security_id hasn't been set" do
     portfolio.cash_trades.create!(
+      :buy => false,
       :trade_date => DateTime.parse("2012-07-19"),
       :amount => 100)
   end
+  
   it "should return Cash as Security even if security is set otherwise" do
   	cash_trade.security = Stock.first
   	cash_trade.security.should == Cash.first

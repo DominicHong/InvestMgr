@@ -131,6 +131,11 @@ describe Trade do
       @trade.vol = -1
       @trade.should_not be_valid
     end
+    it "is not valid if price < 0 " do
+      @trade.price = -1
+      @trade.should_not be_valid
+    end
+
   end
 end
 

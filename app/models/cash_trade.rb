@@ -6,6 +6,7 @@ class CashTrade < Trade
 	def security
 		Cash.first
 	end
+	
 	def vol
 		self.amount
 	end
@@ -13,10 +14,14 @@ class CashTrade < Trade
 		1
 	end
 	def cf
-		self.amount
+		- super
 	end
+
 	def is_cash?
 		true
+	end
+	def fee
+		0
 	end
 
 	private

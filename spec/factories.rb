@@ -41,6 +41,7 @@ FactoryGirl.define do
     association :security
   end
   factory :cash_trade do |cash_trade|
+    buy true
     trade_date DateTime.parse("2012-07-19")
     amount 100
     association :portfolio

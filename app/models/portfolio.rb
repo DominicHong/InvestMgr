@@ -22,12 +22,11 @@ class Portfolio < ActiveRecord::Base
 		position = Hash.new { |hash, key| hash[key] = {:position => 0, :cost => 0} }
 		return position	if ts.nil?
 		ts.each { |t| 
-			next if t.is_cash?
 			vol = position[t.security][:position]
 			cost = position[t.security][:cost]
 			position[t.security][:position]= (t.buy ? (vol+t.vol) : (vol-t.vol))
 			if t.buy
-				position[t.security][:cost]=(vol*cost + (t.vol*t.price+t.fee))/(vol+t.vol)
+				position[t.security][:cost]=(vol*cost + (t.amount+t.fee))/(vol+t.vol)
 			end
 		}
 		position

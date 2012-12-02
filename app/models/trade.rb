@@ -7,6 +7,7 @@ class Trade < ActiveRecord::Base
 	belongs_to :portfolio
 	belongs_to :security
 	
+	validates :buy, :inclusion => {:in => [true, false]}
 	validates :portfolio_id, :existence => true
 	validates :security_id, :existence => true
 	validates :trade_date, :presence => true
@@ -15,7 +16,7 @@ class Trade < ActiveRecord::Base
 					:unless => Proc.new{|trade| trade.type == "CashTrade"} 
 	validates :price, :numericality => {:greater_than_or_equal_to => 0},
 					:unless => Proc.new{|trade| trade.type == "CashTrade"} 				
-	validates :amount,  :numericality => true
+	validates :amount,  :numericality => {:greater_than_or_equal_to => 0}
 	validate :trade_date_must_be_no_later_than_clear_date
 
 	# Return cashflow for this trade
