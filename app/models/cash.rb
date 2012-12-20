@@ -11,7 +11,7 @@
 #  type     :string(255)
 #
 
-Dir["#{Rails.root.to_s}/app/models/*.rb"].each { |rb| require rb }
+require './app/models/security.rb'
 
 class Cash < Security
   

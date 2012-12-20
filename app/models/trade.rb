@@ -23,10 +23,16 @@ class Trade < ActiveRecord::Base
 	def cf
 		self.buy ? (-self.amount-self.fee)  : (self.amount - self.fee)
 	end
-	def is_cash?
-		false
+
+	# Adjust the balance(cost) of the portfolio. Only CashTrade works on this function.
+	def adjBalance
+		0
 	end
 
+	# Show the paid cash dividends. Only DivTrade works on this function.
+	def dividends
+		0
+	end
 
 
 	private

@@ -84,16 +84,17 @@ describe Portfolio do
     end
 
     it "should have 0 cash at the begining" do
-      @portfolio.cash.should == 0
+      @portfolio.position(DateTime.now)[Cash.first][:position].should == 0
     end
 
     it "should have correct cash at specific moments" do
      early_date = DateTime.parse("2011-7-29")
      late_date = DateTime.parse("2011-7-30")
      @portfolio.change_cash(10, early_date)
-     @portfolio.cash(early_date).should == 10
+     @portfolio.pay_div(1,early_date)
+     @portfolio.position(early_date)[Cash.first][:position].should == 11
      @portfolio.change_cash(-9, late_date)
-     @portfolio.cash(late_date).should == 1
+     @portfolio.position(late_date)[Cash.first][:position].should == 2   
    end
   end
 
@@ -107,7 +108,7 @@ describe Portfolio do
     it "should have nothing at 2012-3-1" do
       position = @portfolio.position(DateTime.parse("2012-3-1").beginning_of_day,
        DateTime.parse("2012-3-1").beginning_of_day)
-      position.size.should == 0
+      position.size.should == 1  # only cash in position
     end
     it "should have 100 CMB with 20.2150 cost/share, 100 Gree with 19.00 cost/share before the end of 2012-3-5" do 
       position1 = @portfolio.position(DateTime.parse("2012-3-5 23:59:59"))
@@ -119,7 +120,7 @@ describe Portfolio do
       position1[cmb][:cost].round(4).should == 20.2150
       position1[gree][:position].should == 100
       position1[gree][:cost].round(4).should == 19.0150
-      position1.size.should == 2
+      position1.size.should == 3
       position1.should == position2
     end
     it "should have correct positions and costs of CMB , and only CMB and GREE postitions, at the end of 2012-3-7" do
@@ -128,7 +129,7 @@ describe Portfolio do
       cmb = Stock.where(:sid => "600036", :market => "sh").first
       position1[cmb][:position].should == 300
       position1[cmb][:cost].round(4).should == 20.5083
-      position1.size.should == 2
+      position1.size.should == 3
       position1.should == position2
     end
   end
@@ -154,9 +155,20 @@ describe Portfolio do
       position1[cnooc][:position].should == 300
       position1[cnooc][:cost].round(4).should == 25.6317
 
-      position1.size.should == 1
+      position1.size.should == 2
       position1.should == position2
     end
+  end
+  describe "NAV computing" do
+    before(:each) do
+      @user = User.where(:name => "Example User", :email => "example@railstutorial.org").first
+      @portfolio = @user.portfolios.where(:name => "NAV Shares").first
+    end 
+    it "should have correct NAV at specific date" do
+      @portfolio.nav(DateTime.parse("2012-11-2 23:59")).round(4).should == 1.0462
+      @portfolio.nav(DateTime.parse("2012-8-15 23:59"),DateTime.parse("2012-12-2 23:59")).round(4).should == 1.0414
+      @portfolio.nav(DateTime.parse("2012-12-6 23:59")).round(4).should == 1.0756            
+    end    
   end
   describe "gain/loss for a range of time" do
     it "should return correct gain/loss on specific dates" do

@@ -10,6 +10,9 @@ InvestMgr::Application.routes.draw do
   resources :portfolios
   #resources :security, :only => [:show]
   resources :stock, :only => [:show]
+  resources :cash, :only => [:show]
+  resources :cash_trade, :only => [:show]
+  resources :div_trade, :only => [:show]
 	
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -79,4 +79,8 @@ describe Quote do
    @quote.vol = -1
    @quote.should_not be_valid
  end
+
+ it "CNOOC quote have correct close price in RMB" do
+    FactoryGirl.create(:quote).closeInRMB.should == 12.8
+ end
 end

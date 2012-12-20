@@ -41,5 +41,9 @@ class Quote < ActiveRecord::Base
 	#validates :amount, :numericality => {:greater_than => 0}
 
 	validates :result_date, :presence => true
+
+	def closeInRMB
+		self.close * FxRate::rate(self.result_date.to_date, self.market)
+	end
 end
 

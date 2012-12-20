@@ -15,8 +15,10 @@ class CreateQuotes < ActiveRecord::Migration
       t.column :vol, :decimal, :precision => 13
       t.column :amount, :decimal, :precision => 15
       t.column :result_date, :datetime
+      t.references :security
     end
     add_index :quotes, [:sid, :market, :result_date], :unique => true
+    add_index :quotes, :security_id
   end
 
   def self.down

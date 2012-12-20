@@ -1,4 +1,4 @@
-Dir["#{Rails.root.to_s}/app/models/*.rb"].each { |rb| require rb }
+require './app/models/trade.rb'
 
 class CashTrade < Trade
 	after_initialize :default_values
@@ -10,6 +10,7 @@ class CashTrade < Trade
 	def vol
 		self.amount
 	end
+
 	def price
 		1
 	end
@@ -17,9 +18,10 @@ class CashTrade < Trade
 		- super
 	end
 
-	def is_cash?
-		true
+	def adjBalance
+		self.cf
 	end
+
 	def fee
 		0
 	end

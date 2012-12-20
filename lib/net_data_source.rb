@@ -26,6 +26,23 @@ class NetDataSource
   def self.pmClose
     return @@pmClose
   end
+
+  def self.market_value(position, val_date)
+    mv = 0
+    cash = Cash.first
+    position.each { |sec, value| 
+      next if sec == cash
+      market = (sec.market == 'sh' ? 'ss' : sec.market) 
+      sid = (sec.market == 'hk' ? sec.sid.slice(1,4) : sec.sid)
+      date = val_date
+      begin
+        quotes = YahooFinance::get_HistoricalQuotes( "#{sid}.#{market}", date, date)
+        date = date - 1
+      end until quotes.size > 0 
+      quotes.each {|hq|  mv += value[:position] * FxRate::rate(date, sec.market) * hq.close }
+    }
+    mv += position[cash][:position]
+  end
   
   def checkTime
     now = DateTime.now
@@ -101,21 +118,18 @@ class NetDataSource
   	stocks = Stock.find(:all)
   	for stock in stocks
   		
-  		if stock.market == 'sh' 
-  		 	market = 'ss'
-  		else
-  		 	market = stock.market
-  		end 
+      market = (sec.market == 'sh' ? 'ss' : sec.market) 
+      sid = (sec.market == 'hk' ? sec.sid.slice(1,4) : sec.sid)
   			
-  		YahooFinance::get_HistoricalQuotes( "#{stock.sid}.#{market}", 
-                                     Date.parse( from ),
+  		YahooFinance::get_HistoricalQuotes( "#{sid}.#{market}", 
+                                     Date.parse(from),
                                      Date.parse(to) ) {|hq|
   			quote = Quote.new
   			quote.security = stock
   			quote.sid = stock.sid
   			quote.market = stock.market
   			quote.name = stock.name
-            quote.result_date = hq.date
+        quote.result_date = hq.date
   			quote.open = hq.open
   			quote.high = hq.high
   			quote.low = hq.low
@@ -124,6 +138,6 @@ class NetDataSource
   			quote.vol = hq.volume
   			quote.save!
   		}
-	end
+	  end
   end
 end

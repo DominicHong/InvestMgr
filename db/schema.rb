@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120218102453) do
+ActiveRecord::Schema.define(:version => 20121220104928) do
+
+  create_table "fx_rates", :force => true do |t|
+    t.date    "fdate"
+    t.string  "market"
+    t.decimal "rate",   :precision => 8, :scale => 4
+  end
+
+  add_index "fx_rates", ["fdate", "market"], :name => "index_fx_rates_on_fdate_and_market", :unique => true
 
   create_table "holdings", :force => true do |t|
     t.integer  "stock_id"

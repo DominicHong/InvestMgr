@@ -46,4 +46,16 @@ FactoryGirl.define do
     amount 100
     association :portfolio
   end
+  factory :quote do |quote|
+    result_date Date.parse("2012-11-30")
+    sid "00883"
+    market "hk"
+    name "cnooc"
+    open 15
+    close 16
+    low 14
+    high  17
+    vol 100000
+    association :security
+  end
 end

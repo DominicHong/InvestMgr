@@ -6,9 +6,10 @@ namespace :db do
     make_stocks
     make_portfolios
     make_trades
+    make_FxRates
   end
   def make_users
-    @user = User.create!(:name => "Example User", :email => "example@railstutorial.org")
+    @user = User.first  
 
     # 99.times do |n|
     #       name  = Faker::Name.name
@@ -114,6 +115,14 @@ namespace :db do
                               :fee => 1.5 * n,
                               :security_id => @cnooc.id
                               )
+    end
+  end
+
+  def make_FxRates
+    date = Date.parse("2012-1-1")
+    while date <= Date.parse("2012-12-31")
+      FxRate.new(:fdate => date, :market => "hk", :rate => 0.8).save!
+      date = date + 1
     end
   end
 end
