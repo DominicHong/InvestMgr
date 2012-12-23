@@ -84,7 +84,7 @@ describe Portfolio do
     end
 
     it "should have 0 cash at the begining" do
-      @portfolio.position(DateTime.now)[Cash.first][:position].should == 0
+      @portfolio.position(DateTime.now)[CASH][:position].should == 0
     end
 
     it "should have correct cash at specific moments" do
@@ -92,9 +92,9 @@ describe Portfolio do
      late_date = DateTime.parse("2011-7-30")
      @portfolio.change_cash(10, early_date)
      @portfolio.pay_div(1,early_date)
-     @portfolio.position(early_date)[Cash.first][:position].should == 11
+     @portfolio.position(early_date)[CASH][:position].should == 11
      @portfolio.change_cash(-9, late_date)
-     @portfolio.position(late_date)[Cash.first][:position].should == 2   
+     @portfolio.position(late_date)[CASH][:position].should == 2   
    end
   end
 
@@ -166,7 +166,7 @@ describe Portfolio do
     end 
     it "should have correct NAV at specific date" do
       @portfolio.nav(DateTime.parse("2012-11-2 23:59")).round(4).should == 1.0462
-      @portfolio.nav(DateTime.parse("2012-8-15 23:59"),DateTime.parse("2012-12-2 23:59")).round(4).should == 1.0414
+      @portfolio.nav(DateTime.parse("2012-8-15 "),DateTime.parse("2012-12-2 23:59")).round(4).should == 1.0414
       @portfolio.nav(DateTime.parse("2012-12-6 23:59")).round(4).should == 1.0756            
     end    
   end

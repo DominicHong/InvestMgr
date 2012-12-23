@@ -15,7 +15,7 @@ describe CashTrade do
   
   it "should return Cash as Security even if security is set otherwise" do
   	cash_trade.security = Stock.first
-  	cash_trade.security.should == Cash.first
+  	cash_trade.security.should == CASH
   end
   it "should return correct cf() for general Trades and CashTrades" do
   	cash_trade.cf.should == 100

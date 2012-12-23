@@ -45,12 +45,5 @@ describe NetDataSource do
      quote.vol.should == 27880300
    }  	
  end 
- it "should get correct market value for a position" do
-    position = Hash.new { |hash, key| hash[key] = {:position => 0, :cost => 0} }
-    position[@cmb][:position] = 100
-    position[@gree][:position] = 200
-    position[@cnooc][:position] = 100
-    position[Cash.first][:position] = 100
-    NetDataSource::market_value(position, Date.parse("2012-12-2")).should == 7122.40
- end
+
 end

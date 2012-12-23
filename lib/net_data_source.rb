@@ -26,23 +26,6 @@ class NetDataSource
   def self.pmClose
     return @@pmClose
   end
-
-  def self.market_value(position, val_date)
-    mv = 0
-    cash = Cash.first
-    position.each { |sec, value| 
-      next if sec == cash
-      market = (sec.market == 'sh' ? 'ss' : sec.market) 
-      sid = (sec.market == 'hk' ? sec.sid.slice(1,4) : sec.sid)
-      date = val_date
-      begin
-        quotes = YahooFinance::get_HistoricalQuotes( "#{sid}.#{market}", date, date)
-        date = date - 1
-      end until quotes.size > 0 
-      quotes.each {|hq|  mv += value[:position] * FxRate::rate(date, sec.market) * hq.close }
-    }
-    mv += position[cash][:position]
-  end
   
   def checkTime
     now = DateTime.now

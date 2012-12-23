@@ -11,7 +11,7 @@
 #  type     :string(255)
 #
 
-require './app/models/security.rb'
+require Rails.root.to_s + '/app/models/security.rb'
 
 class Cash < Security
   

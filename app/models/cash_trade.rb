@@ -1,10 +1,10 @@
-require './app/models/trade.rb'
+require Rails.root.to_s + '/app/models/trade.rb'
 
 class CashTrade < Trade
 	after_initialize :default_values
 
 	def security
-		Cash.first
+		CASH
 	end
 	
 	def vol
@@ -28,7 +28,7 @@ class CashTrade < Trade
 
 	private
 		def default_values
-			self.security = Cash.first
+			self.security = CASH
 		end
 
 end

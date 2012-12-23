@@ -1,3 +1,5 @@
+require "#{Rails.root}/lib/data_source.rb"
+
 class Portfolio < ActiveRecord::Base
 	attr_accessible :name, :classification
 	
@@ -29,7 +31,7 @@ class Portfolio < ActiveRecord::Base
 		ts = select_trades(*from, till)
 		position = Hash.new { |hash, key| hash[key] = {:position => 0, :cost => 0} }
 		cash = 0
-		position[Cash.first][:position] = cash
+		position[CASH][:position] = cash
 		return position	if ts.nil?
 		ts.each { |t| 
 			vol = position[t.security][:position]
@@ -40,40 +42,47 @@ class Portfolio < ActiveRecord::Base
 			end
 			cash += t.cf
 		}
-		position[Cash.first][:position] = cash
+		position[CASH][:position] = cash
 		position
 	end
 	def nav(*from, till)
 		ts = select_trades(*from, till)
 		return 0 if ts.nil?
 		position = Hash.new { |hash, key| hash[key] = {:position => 0, :cost => 0} }
-		cash = 0
-		position[Cash.first][:position] = cash
+		shares = cash = 0
+		nav = 1
 		trade_dates = ts.group_by { |t| t.trade_date.to_date}
 		trade_dates.keys.sort.each { |date|
-			t =  trade_dates[date]
-			vol = position[t.security][:position]
-			cost = position[t.security][:cost]
-			position[t.security][:position]= (t.buy ? (vol+t.vol) : (vol-t.vol))
-			if t.buy
-				position[t.security][:cost]=(vol*cost + (t.amount+t.fee))/(vol+t.vol)
+			adjBalance = 0
+			for t in trade_dates[date]
+				vol = position[t.security][:position]
+				cost = position[t.security][:cost]
+				position[t.security][:position]= (t.buy ? (vol+t.vol) : (vol-t.vol))
+				if t.buy
+					position[t.security][:cost]=(vol*cost + (t.amount+t.fee))/(vol+t.vol)
+				end
+				cash += t.cf
+				adjBalance += t.adjBalance
 			end
-			cash += t.cf
-
-		 }
-
+			position[CASH][:position] = cash
+			market_value = DataSource.yahoo_market_value(position, date)
+			shares = adjBalance/nav + shares
+			shares = market_value if shares == 0
+			nav = market_value/shares
+		}
+		nav
 	end
 
 	private
-		def select_trades(*from, till)
-			rails ArgumentError, "must be no more than ONE from_date" if from.length > 1
-			from = from.first
-			if from.nil?
-				ts = self.trades.where("trade_date <= ?", till).order("trade_date")
-			else
-				ts = self.trades.where("trade_date >= ? AND trade_date <= ?", from, till).order("trade_date")
-			end
+	def select_trades(*from, till)
+		rails ArgumentError, "must be no more than ONE from_date" if from.length > 1
+		from = from.first
+		if from.nil?
+			ts = self.trades.where("trade_date <= ?", till).order("trade_date")
+		else
+			ts = self.trades.where("trade_date >= ? AND trade_date <= ?", from, till).order("trade_date")
 		end
+	end
 end
 
 # == Schema Information

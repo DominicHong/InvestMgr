@@ -1,5 +1,5 @@
-require './app/models/trade.rb'
-require './app/models/cash_trade.rb'
+require "#{Rails.root.to_s}/app/models/trade.rb"
+require "#{Rails.root.to_s}/app/models/cash_trade.rb"
 
 class DivTrade < CashTrade
 	def dividends
